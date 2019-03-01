@@ -2,6 +2,8 @@ package com.fzk.freemarker.biex;
 
 import com.fzk.freemarker.biex.producer.BiexProducer;
 
+import java.math.BigDecimal;
+
 /**
  * @program: fzk-freemarker
  *
@@ -15,9 +17,14 @@ public class ProduceServer
 {
     public static void main(String[] args) throws ClassNotFoundException
     {
-        BiexProducer p = new BiexProducer();
+        System.out.println(System.getProperty("user.dir"));//user.dir指定了当前的路径
+//        BiexProducer p = new BiexProducer();
 //        p.pruduceSql();
 //        p.pruduceController();
-        p.pruduceJsp();
+//        p.pruduceJsp();
+//        //传入实体类列表
+//        String[] strs = new String[]{"AccountFundCurrentMem","AccountWalletAssetMem","EntrustVCoinMoneyMem","RealDealVCoinMoneyMem"};
+//        p.pruduceTmp(strs);
     }
+
 }

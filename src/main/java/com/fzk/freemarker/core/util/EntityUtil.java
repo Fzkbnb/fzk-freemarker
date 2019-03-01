@@ -1,11 +1,13 @@
 package com.fzk.freemarker.core.util;
 
 import com.fzk.freemarker.biex.entity.PunchActivityDeposit;
+import com.fzk.freemarker.core.model.PropertyModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * @program: fzk-freemarker
@@ -63,7 +65,7 @@ public class EntityUtil
      * @param object
      * @return
      */
-    public static Map<String,Object> buildCommonMap(Class<PunchActivityDeposit> object)
+    public static Map<String, Object> buildCommonMap(Class<PunchActivityDeposit> object)
     {
         Map<String, Object> map = new HashMap<>();
         String entityName = object.getSimpleName();
@@ -72,5 +74,51 @@ public class EntityUtil
         //实体类代码：首字母小写
         map.put("entityCode", StringUtil.toLowerCaseFirstOne(entityName));
         return map;
+    }
+
+    public static Map<String, String> buildPropertyTypeMap(String className) throws ClassNotFoundException
+    {
+        Map<String, String> map = new HashMap<>();
+        Class cls = Class.forName("com.fzk.freemarker.biex.entity." + className);
+        Field[] fields = cls.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++)
+        {
+            Field f = fields[i];
+            map.put(f.getName(), f.getType().getSimpleName());
+        }
+        return map;
+    }
+
+    public static List<PropertyModel> buildPropertyList_ignite(String className) throws ClassNotFoundException
+    {
+        List<PropertyModel> models = new ArrayList<>();
+        Class cls = Class.forName("com.fzk.freemarker.biex.entity." + className);
+        Field[] fields = cls.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++)
+        {
+            Field f = fields[i];
+            PropertyModel model = new PropertyModel();
+            model.setName(f.getName());
+            String type = f.getType().getSimpleName();
+            model.setType(type);
+            if (String.class.equals(f.getType()))
+            {
+                model.setIgniteType("VARCHAR");
+            }
+            else if (Long.class.equals(f.getType()) || Integer.class.equals(f.getType()) || BigDecimal.class.equals(f.getType()))
+            {
+                model.setIgniteType("NUMERIC");
+            }
+            else if (Date.class.equals(f.getType()) || Timestamp.class.equals(f.getType()) || java.sql.Date.class.equals(f.getType()))
+            {
+                model.setIgniteType("TIMESTAMP");
+            }
+            else
+            {
+                model.setIgniteType("不支持的类型");
+            }
+            models.add(model);
+        }
+        return models;
     }
 }

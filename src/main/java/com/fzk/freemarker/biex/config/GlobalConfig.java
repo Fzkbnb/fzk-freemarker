@@ -11,6 +11,8 @@ package com.fzk.freemarker.biex.config;
  **/
 public class GlobalConfig
 {
+    public static final String PATH_TEMPLATE                        = "src/main/resources/template/";
+
     //写死部分
     public static String TARGET_PATH                             = "src/main/resources/target/";
 
@@ -29,4 +31,6 @@ public class GlobalConfig
     public static String TEMPLATENAME_BIEX_SQL_RESOURCES         = "resources.ftl";
 
     public static String CLASSPATH_BIEX_ENTITY                   = "com.fzk.freemarker.biex.entity";
+
+    public static String TEMPLATEPATH_BIEX_TEMP                   = "src/main/resources/template/biex/";
 }

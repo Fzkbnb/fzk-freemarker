@@ -79,7 +79,8 @@ public class BiexProducer
         map.put("hasSubOperator", Boolean.parseBoolean(LINK_ENABLE_OPERATOR));
         map.put("subClassCode", StringUtil.toLowerCaseFirstOne(LINK_CLASSNAME));
         map.put("subOrderName", LINK_CLASS_DESCRIPTION);
-        if(Boolean.parseBoolean(ENABLE_LINK)){
+        if (Boolean.parseBoolean(ENABLE_LINK))
+        {
             Map<String, String> subEntityMap = EntityUtil.buildPropertyMap(Class.forName(GlobalConfig.CLASSPATH_BIEX_ENTITY + "." + LINK_CLASSNAME));
             map.put("subEntityMap", subEntityMap);
         }
@@ -125,5 +126,42 @@ public class BiexProducer
             map.put("operatorId", OPERATORID);
         }
         ProducerUtil.produce(GlobalConfig.TEMPLATEPATH_BIEX_SQL, GlobalConfig.TEMPLATENAME_BIEX_SQL_RESOURCES, SQLFILENAME, map);
+    }
+    /**
+     * 临时文件
+     */
+    /**
+     * 自动生成sql
+     */
+    public void pruduceTmp(String[] strs) throws ClassNotFoundException
+    {
+        //        Map<String, Object> map = new HashMap<>();
+        //        List<PropertyModel> models = EntityUtil.buildPropertyList_ignite("StockInfoMem");
+        //        map.put("props", models);
+        //        ProducerUtil.produce(GlobalConfig.TEMPLATEPATH_BIEX_TEMP, "temp.ftl", "temp.java", map);
+        //2.
+        //        Map<String, Object> map = new HashMap<>();
+        //        String entityName="TradeFeeRateGroupMem";
+        //        String targetName = entityName+"oryServiceImpl.java";
+        //        map.put("entityName",entityName);
+        //        map.put("entityName1",StringUtil.toLowerCaseFirstOne(entityName));
+        //        ProducerUtil.produce(GlobalConfig.TEMPLATEPATH_BIEX_TEMP, "temp1.ftl", targetName, map);
+        for (int i = 0; i < strs.length; i++)
+        {
+            Map<String, Object> map = new HashMap<>();
+            String entityName = strs[i];
+            String targetName = entityName + "oryServiceImpl.java";
+            map.put("entityName", entityName);
+            map.put("entityName1", StringUtil.toLowerCaseFirstOne(entityName));
+            ProducerUtil.produce(GlobalConfig.TEMPLATEPATH_BIEX_TEMP, "temp1.ftl", targetName, map);
+        }
+//        for (int i = 0; i < strs.length; i++)
+//        {
+//            Map<String, Object> map = new HashMap<>();
+//            String entityName = strs[i];
+//            String targetName = entityName + "oryRepository.java";
+//            map.put("entityName", entityName);
+//            ProducerUtil.produce(GlobalConfig.TEMPLATEPATH_BIEX_TEMP, "temp2.ftl", targetName, map);
+//        }
     }
 }
